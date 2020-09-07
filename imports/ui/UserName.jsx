@@ -13,8 +13,13 @@ const UserName = () => {
       </label>
       <button
         onClick={(event) => {
-          event.preventDefault()
-          Meteor.call("CreateGame", input);
+          event.preventDefault();
+          Meteor.call("CreateGame", input, (error, result) => {
+            Session.set({
+              gameID: result.gameID,
+              username: input,
+            });
+          });
         }}
         className="username"
         type="submit"

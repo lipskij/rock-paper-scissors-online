@@ -1,4 +1,5 @@
 import { Mongo } from "meteor/mongo";
+import { Session } from "meteor/session";
 
 export const GamesCollection = new Mongo.Collection("games");
 
@@ -12,7 +13,8 @@ export const GamesCollection = new Mongo.Collection("games");
 
 Meteor.methods({
   CreateGame(username) {
-    const affected = GamesCollection.update(
+    console.log("here");
+    const result = GamesCollection.upsert(
       {
         players: {
           $size: 1,
@@ -21,15 +23,13 @@ Meteor.methods({
       { $addToSet: { players: username } }
     );
 
-    if (affected === 0) {
-      GamesCollection.insert({ players: [username] });
-      return 0;
-    }
-    return 1;
+    return { gameID: result.insertedId };
   },
-  Choice(userId) {
-    const change = GamesCollection.insert({
-        id: this.userId,
-    })
+
+  Choice(payload) {
+    const game = GamesCollection.findOne(payload.gameID);
+    console.log(game);
+    console.log(payload);
+    return "choice";
   },
 });
