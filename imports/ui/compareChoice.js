@@ -1,6 +1,6 @@
-export const tie = "tie";
-export const oponnent = "oponnent";
-export const me = "me";
+export const tie = "It's a tie";
+export const oponnent = "You loose";
+export const me = "You win";
 
 export default function rockPaper(myChoice, opponentsChoice) {
   if (myChoice === opponentsChoice) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
@@ -12,7 +12,6 @@ const Start = () => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     return currentGame;
   });
-  console.log(game);
 
   // {
   //   _id: "DPDRweahtuJHT85M9",
