@@ -13,13 +13,6 @@ export const GamesCollection = new Mongo.Collection("games");
 
 Meteor.methods({
   CreateGame(username) {
-    //
-    // upsert is not returning updated ObjectId
-    // find() games with the single player in them !!!
-    // use insert() if size === 0
-    // use update if size === 1
-    // return gameID
-
     const games = GamesCollection.find({
       players: {
         $size: 1,
@@ -37,8 +30,15 @@ Meteor.methods({
   },
 
   Choice(payload) {
-    const game = GamesCollection.findOne(payload.gameID);
+    // insert choices to the gameID that those users exist in
+    // append choice to the username
+    GamesCollection.update(payload.gameID, {
+      $set: {
+        [payload.username]: payload.hand,
+      },
+    });
+    
     // compare : gameID username and choice
-    return "choice";
+    // return "choice";
   },
 });
