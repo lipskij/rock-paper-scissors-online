@@ -12,6 +12,7 @@ const Start = () => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     return currentGame;
   });
+  console.log(game);
 
   // {
   //   _id: "DPDRweahtuJHT85M9",
