@@ -22,13 +22,13 @@ const Start = () => {
   //   }
 
   // check if ather player has a choice
-  useEffect (() => {
+  useEffect(() => {
     if (game && game[Session.get("username")]) {
       // find other player index
       const myIndex = game.players.indexOf(Session.get("username"));
       // append index to username
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
-  
+
       const otherUsername = game.players[otherPlayerIndex];
       const myChoice = game[Session.get("username")];
       const opponentsChoice = game[otherUsername];
@@ -38,8 +38,7 @@ const Start = () => {
         setWinner(winner);
       }
     }
-  },[game, Session.get("username"), setWinner])
-  
+  }, [game, Session.get("username"), setWinner]);
 
   return (
     <div className="match">
