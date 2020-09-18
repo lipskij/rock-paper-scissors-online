@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { GamesCollection } from "../api/games";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
@@ -10,6 +10,7 @@ const PlayerScore = () => {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
+
       return {
         otherUsername,
         myScore: currentGame.score[myIndex],

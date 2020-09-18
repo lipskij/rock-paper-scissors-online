@@ -1,16 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
-import compareChoice from "./compareChoice";
+import rockPaper from './compareChoice';
 
 const Start = () => {
   const [hand, setHand] = useState("paper");
-  const [winner, setWinner] = useState("");
 
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
-    return currentGame;
+    if (currentGame && currentGame.players) {
+      const myIndex = currentGame.players.indexOf(Session.get("username"));
+      const otherPlayerIndex = myIndex == 0 ? 1 : 0;
+      const otherUsername = currentGame.players[otherPlayerIndex];
+      console.log(currentGame.score);
+      // now its comparing current count of points
+      // need to store the previous score
+      // compare previous score with current score
+      // if changed return opponents hand accordingly
+      if (currentGame.score[myIndex] === currentGame.score[otherPlayerIndex]) {
+        console.log("tie");
+      }
+      if (currentGame.score[myIndex] > currentGame.score[otherPlayerIndex]) {
+        console.log("i win");
+      }
+      if (currentGame.score[myIndex] < currentGame.score[otherPlayerIndex]) {
+        console.log("opponent win");
+      }
+      return {
+        otherUsername,
+        myScore: currentGame.score[myIndex],
+        opponentsScore: currentGame.score[otherPlayerIndex],
+      };
+    }
+    return { otherUsername: "", myScore: 0, opponentsScore: 0 };
   });
   console.log(game);
 
@@ -21,28 +44,9 @@ const Start = () => {
   //   antras: "scissors"
   //   }
 
-  // check if ather player has a choice
-  useEffect(() => {
-    if (game && game[Session.get("username")]) {
-      // find other player index
-      const myIndex = game.players.indexOf(Session.get("username"));
-      // append index to username
-      const otherPlayerIndex = myIndex == 0 ? 1 : 0;
-
-      const otherUsername = game.players[otherPlayerIndex];
-      const myChoice = game[Session.get("username")];
-      const opponentsChoice = game[otherUsername];
-      if (game[otherUsername]) {
-        // compare choices (full game play logic/compare rock, paper, scissors)
-        const winner = compareChoice(myChoice, opponentsChoice);
-        setWinner(winner);
-      }
-    }
-  }, [game, Session.get("username"), setWinner]);
 
   return (
     <div className="match">
-      {winner}
       {/* After choosing an option press start to determine who won */}
       <button
         className="start"

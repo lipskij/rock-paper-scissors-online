@@ -43,12 +43,12 @@ Meteor.methods({
       const otherUsername = game.players[otherPlayerIndex];
       const opponentsChoice = game[otherUsername];
 
-      if (opponentsChoice) {
-        const winner = rockPaper(payload.hand, opponentsChoice);
+      if (opponentsChoice) { // if opponent made a choice...
+        const winner = rockPaper(payload.hand, opponentsChoice); // using rockPaper function of compering hands
         if (winner === me) {
           return GamesCollection.update(game._id, {
-            $inc: { [`score.${myIndex}`]: 1 },
-            $unset: {[payload.username]: "", [otherUsername]: ""},
+            $inc: { [`score.${myIndex}`]: 1 }, // increment by 1
+            $unset: {[payload.username]: "", [otherUsername]: ""}, // reseting hand choice using usernames of players
           });
         }
         if (winner === oponnent) {
@@ -71,7 +71,4 @@ Meteor.methods({
       }
     }
   },
-  // IncrementScore(count) {
-  //   GamesCollection.update(count.)
-  // }
 });
