@@ -24,8 +24,9 @@ const Start = () => {
       };
     }
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
-  },[opponentHand, setOpponentHand]);
+  }, [opponentHand, setOpponentHand]);
 
+  const showOptions = !!game.otherUsername;
   // {
   //   _id: "DPDRweahtuJHT85M9",
   //   players: ["pirmas", "antras" ],
@@ -52,21 +53,27 @@ const Start = () => {
       {/* Change hands after choosing and option */}
       <div className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
-        <img className="player2" src={`/${opponentHand ? opponentHand : "paper"}.png`} alt="rock" />
+        <img
+          className="player2"
+          src={`/${opponentHand ? opponentHand : "paper"}.png`}
+          alt="rock"
+        />
       </div>
       <h2>Choose an option</h2>
       {/* Toggle player's hands depending on chosen option */}
-      <div className="options">
-        <button onClick={() => setHand("rock")} className="rock">
-          Rock
-        </button>
-        <button onClick={() => setHand("paper")} className="paper">
-          Paper
-        </button>
-        <button onClick={() => setHand("scissors")} className="scissors">
-          Scissors
-        </button>
-      </div>
+      {showOptions ? (
+        <div className="options">
+          <button onClick={() => setHand("rock")} className="rock">
+            Rock
+          </button>
+          <button onClick={() => setHand("paper")} className="paper">
+            Paper
+          </button>
+          <button onClick={() => setHand("scissors")} className="scissors">
+            Scissors
+          </button>
+        </div>
+      ) : "Wait for other player"}
     </div>
   );
 };
