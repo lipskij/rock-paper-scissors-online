@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
-import rockPaper from './compareChoice';
 
 const Start = () => {
   const [hand, setHand] = useState("paper");
@@ -13,19 +12,16 @@ const Start = () => {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
-      console.log(currentGame.score);
+      console.log(currentGame.winner[0]);
       // now its comparing current count of points
       // need to store the previous score
       // compare previous score with current score
       // if changed return opponents hand accordingly
-      if (currentGame.score[myIndex] === currentGame.score[otherPlayerIndex]) {
-        console.log("tie");
+      if (currentGame.winner[0] === 0) {
+        console.log("Me");
       }
-      if (currentGame.score[myIndex] > currentGame.score[otherPlayerIndex]) {
-        console.log("i win");
-      }
-      if (currentGame.score[myIndex] < currentGame.score[otherPlayerIndex]) {
-        console.log("opponent win");
+      if (currentGame.winner[0] === 1) {
+        console.log("You");
       }
       return {
         otherUsername,

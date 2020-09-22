@@ -47,18 +47,21 @@ Meteor.methods({
         const winner = rockPaper(payload.hand, opponentsChoice); // using rockPaper function of compering hands
         if (winner === me) {
           return GamesCollection.update(game._id, {
+            $set: { winner: [myIndex]},
             $inc: { [`score.${myIndex}`]: 1 }, // increment by 1
             $unset: {[payload.username]: "", [otherUsername]: ""}, // reseting hand choice using usernames of players
           });
         }
         if (winner === oponnent) {
           return GamesCollection.update(game._id, {
+            $set: { winner: [otherPlayerIndex]},
             $inc: { [`score.${otherPlayerIndex}`]: 1 },
             $unset: {[payload.username]: "", [otherUsername]: ""},
           });        
         }
         if (winner === tie) {
           return GamesCollection.update(game._id, {
+            $set: { winner: tie},
             $unset: {[payload.username]: "", [otherUsername]: ""},
           });
         }
