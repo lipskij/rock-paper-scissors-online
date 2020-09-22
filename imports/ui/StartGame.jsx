@@ -5,6 +5,7 @@ import { GamesCollection } from "../api/games";
 
 const Start = () => {
   const [hand, setHand] = useState("paper");
+  const [opponentHand, setOpponentHand] = useState("");
 
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
@@ -12,17 +13,10 @@ const Start = () => {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
-      console.log(currentGame.winner[0]);
       // now its comparing current count of points
       // need to store the previous score
       // compare previous score with current score
-      // if changed return opponents hand accordingly
-      if (currentGame.winner[0] === 0) {
-        console.log("Me");
-      }
-      if (currentGame.winner[0] === 1) {
-        console.log("You");
-      }
+      setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
         otherUsername,
         myScore: currentGame.score[myIndex],
@@ -30,8 +24,7 @@ const Start = () => {
       };
     }
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
-  });
-  console.log(game);
+  },[opponentHand, setOpponentHand]);
 
   // {
   //   _id: "DPDRweahtuJHT85M9",
@@ -39,8 +32,6 @@ const Start = () => {
   //   pirmas: "rock",
   //   antras: "scissors"
   //   }
-
-
   return (
     <div className="match">
       {/* After choosing an option press start to determine who won */}
@@ -48,6 +39,7 @@ const Start = () => {
         className="start"
         onClick={(event) => {
           event.preventDefault();
+          setOpponentHand(opponentHand);
           Meteor.call("Choice", {
             gameID: Session.get("gameID"),
             username: Session.get("username"),
@@ -60,7 +52,7 @@ const Start = () => {
       {/* Change hands after choosing and option */}
       <div className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
-        <img className="player2" src="/rock.png" alt="rock" />
+        <img className="player2" src={`/${opponentHand}.png`} alt="rock" />
       </div>
       <h2>Choose an option</h2>
       {/* Toggle player's hands depending on chosen option */}

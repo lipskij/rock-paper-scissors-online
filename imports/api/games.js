@@ -43,26 +43,30 @@ Meteor.methods({
       const otherUsername = game.players[otherPlayerIndex];
       const opponentsChoice = game[otherUsername];
 
-      if (opponentsChoice) { // if opponent made a choice...
+      if (opponentsChoice) {
+        // if opponent made a choice...
         const winner = rockPaper(payload.hand, opponentsChoice); // using rockPaper function of compering hands
+        const choices = [];
+        choices[myIndex] = payload.hand;
+        choices[otherPlayerIndex] = opponentsChoice;
         if (winner === me) {
           return GamesCollection.update(game._id, {
-            $set: { winner: [myIndex]},
+            $set: { winner: {username: payload.username, choices }},
             $inc: { [`score.${myIndex}`]: 1 }, // increment by 1
-            $unset: {[payload.username]: "", [otherUsername]: ""}, // reseting hand choice using usernames of players
+            $unset: { [payload.username]: "", [otherUsername]: "" }, // reseting hand choice using usernames of players
           });
         }
         if (winner === oponnent) {
           return GamesCollection.update(game._id, {
-            $set: { winner: [otherPlayerIndex]},
+            $set: { winner: {username: otherUsername, choices } },
             $inc: { [`score.${otherPlayerIndex}`]: 1 },
-            $unset: {[payload.username]: "", [otherUsername]: ""},
-          });        
+            $unset: { [payload.username]: "", [otherUsername]: "" },
+          });
         }
         if (winner === tie) {
           return GamesCollection.update(game._id, {
-            $set: { winner: tie},
-            $unset: {[payload.username]: "", [otherUsername]: ""},
+            $set: { winner: {username: tie, choices }},
+            $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
       } else {
