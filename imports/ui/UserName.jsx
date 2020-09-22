@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { Session } from "meteor/session";
 
 const UserName = () => {
   const [input, setInput] = useState("");
+  const [hideInput, setHideInput] = useState(false);
+
   return (
+    hideInput ? null :
     <form className="name">
       <label>
         <input
@@ -19,6 +23,7 @@ const UserName = () => {
               gameID: result.gameID,
               username: input,
             });
+            setHideInput(true);
           });
         }}
         className="username"

@@ -5,7 +5,7 @@ import { GamesCollection } from "../api/games";
 
 const Start = () => {
   const [hand, setHand] = useState("paper");
-  const [opponentHand, setOpponentHand] = useState("");
+  const [opponentHand, setOpponentHand] = useState("paper");
 
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
@@ -52,7 +52,7 @@ const Start = () => {
       {/* Change hands after choosing and option */}
       <div className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
-        <img className="player2" src={`/${opponentHand}.png`} alt="rock" />
+        <img className="player2" src={`/${opponentHand ? opponentHand : "paper"}.png`} alt="rock" />
       </div>
       <h2>Choose an option</h2>
       {/* Toggle player's hands depending on chosen option */}
