@@ -3,14 +3,6 @@ import rockPaper, { tie, me, oponnent } from "../ui/compareChoice";
 
 export const GamesCollection = new Mongo.Collection("games");
 
-// Meteor.methods({
-//   declareWinners() {
-//     Players.update({ score: { $gt: 10 } }, {
-//       $addToSet: { badges: 'Winner' }
-//     }, { multi: true });
-//   }
-// });
-
 Meteor.methods({
   CreateGame(username) {
     const games = GamesCollection.find({
@@ -35,25 +27,23 @@ Meteor.methods({
   Choice(payload) {
     const game = GamesCollection.findOne(payload.gameID);
     if (game) {
-      // find other player index
       const myIndex = game.players.indexOf(payload.username);
-      // append index to username
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
 
       const otherUsername = game.players[otherPlayerIndex];
       const opponentsChoice = game[otherUsername];
 
       if (opponentsChoice) {
-        // if opponent made a choice...
-        const winner = rockPaper(payload.hand, opponentsChoice); // using rockPaper function of compering hands
+        const winner = rockPaper(payload.hand, opponentsChoice);
         const choices = [];
+
         choices[myIndex] = payload.hand;
         choices[otherPlayerIndex] = opponentsChoice;
+        
         if (winner === me) {
           return GamesCollection.update(game._id, {
             $set: { winner: {username: payload.username, choices }},
-            $inc: { [`score.${myIndex}`]: 1 }, // increment by 1
-            $unset: { [payload.username]: "", [otherUsername]: "" }, // reseting hand choice using usernames of players
+            $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
         if (winner === oponnent) {

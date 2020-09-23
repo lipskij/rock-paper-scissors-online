@@ -13,9 +13,7 @@ const Start = () => {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
-      // now its comparing current count of points
-      // need to store the previous score
-      // compare previous score with current score
+      
       setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
         otherUsername,
@@ -27,15 +25,9 @@ const Start = () => {
   }, [opponentHand, setOpponentHand]);
 
   const showOptions = !!game.otherUsername;
-  // {
-  //   _id: "DPDRweahtuJHT85M9",
-  //   players: ["pirmas", "antras" ],
-  //   pirmas: "rock",
-  //   antras: "scissors"
-  //   }
+  
   return (
     <div className="match">
-      {/* After choosing an option press start to determine who won */}
       <button
         className="start"
         onClick={(event) => {
@@ -50,7 +42,6 @@ const Start = () => {
       >
         Start!
       </button>
-      {/* Change hands after choosing and option */}
       <div className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
         <img
@@ -60,7 +51,6 @@ const Start = () => {
         />
       </div>
       <h2>Choose an option</h2>
-      {/* Toggle player's hands depending on chosen option */}
       {showOptions ? (
         <div className="options">
           <button onClick={() => setHand("rock")} className="rock">
