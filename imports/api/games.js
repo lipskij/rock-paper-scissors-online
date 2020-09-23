@@ -43,6 +43,7 @@ Meteor.methods({
         if (winner === me) {
           return GamesCollection.update(game._id, {
             $set: { winner: {username: payload.username, choices }},
+            $inc: { [`score.${myIndex}`]: 1 },
             $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
