@@ -12,7 +12,8 @@ const UserName = () => {
         <input
           onChange={(event) => setInput(event.target.value)}
           type="text"
-          placeholder="User name"
+          placeholder="Username"
+          className="input"
         />
       </label>
       <button
