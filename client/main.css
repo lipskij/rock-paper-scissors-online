@@ -57,6 +57,7 @@ body {
   color: #1f0c44;
   border: none;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .username:hover,

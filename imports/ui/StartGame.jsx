@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
+import compareChoice from "./compareChoice";
 
 const Start = () => {
-  const [hand, setHand] = useState("paper");
-  const [opponentHand, setOpponentHand] = useState("paper");
+  const [hand, setHand] = useState("rock");
+  const [opponentHand, setOpponentHand] = useState("rock");
+  const [winner, setWinner] = useState("");
 
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
@@ -13,7 +15,13 @@ const Start = () => {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
-      
+
+      const myChoice = currentGame.winner.choices[myIndex];
+      const opponentsChoice = currentGame.winner.choices[otherPlayerIndex];
+      const winner = compareChoice(myChoice, opponentsChoice);
+      setWinner(winner);
+      console.log(myChoice);
+
       setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
         otherUsername,
@@ -22,12 +30,13 @@ const Start = () => {
       };
     }
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
-  }, [opponentHand, setOpponentHand]);
+  }, [opponentHand, setOpponentHand, setWinner]);
 
   const showOptions = !!game.otherUsername;
-  
+
   return (
     <div className="match">
+      {winner}
       <button
         className="start"
         onClick={(event) => {
@@ -46,7 +55,7 @@ const Start = () => {
         <img className="player1" src={`/${hand}.png`} alt="paper" />
         <img
           className="player2"
-          src={`/${opponentHand ? opponentHand : "paper"}.png`}
+          src={`/${opponentHand ? opponentHand : "rock"}.png`}
           alt="rock"
         />
       </div>
@@ -63,7 +72,9 @@ const Start = () => {
             Scissors
           </button>
         </div>
-      ) : "Wait for other player"}
+      ) : (
+        "Wait for other player"
+      )}
     </div>
   );
 };
