@@ -20,7 +20,6 @@ const Start = () => {
       const opponentsChoice = currentGame.winner.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
       setWinner(winner);
-      console.log(myChoice);
 
       setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
@@ -36,7 +35,7 @@ const Start = () => {
 
   return (
     <div className="match">
-      {winner}
+      <h2>{winner}</h2>
       <button
         className="start"
         onClick={(event) => {
