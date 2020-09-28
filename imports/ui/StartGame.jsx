@@ -2,20 +2,27 @@ import React, { useState } from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
+import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
 
 const Start = () => {
   const [hand, setHand] = useState("rock");
   const [opponentHand, setOpponentHand] = useState("rock");
   const [winner, setWinner] = useState("");
+  const [animation, setAnimation] = useState("visible");
 
+  const variants = {
+    visible: {},
+    moving: {y: [0, 40, -40, 40, -40, 0]}
+  }
+  console.log(animation);
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
-
+      
       const myChoice = currentGame.winner.choices[myIndex];
       const opponentsChoice = currentGame.winner.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
@@ -40,6 +47,7 @@ const Start = () => {
         className="start"
         onClick={(event) => {
           event.preventDefault();
+          setAnimation("moving");
           setOpponentHand(opponentHand);
           Meteor.call("Choice", {
             gameID: Session.get("gameID"),
@@ -50,14 +58,21 @@ const Start = () => {
       >
         Start!
       </button>
-      <div className="hands">
+      <motion.div
+        initial="visible"
+        animate={animation}
+        variants={variants}
+        transition={{duration : 1}}
+        onAnimationComplete={ () => setAnimation("visible")}
+        className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
         <img
           className="player2"
           src={`/${opponentHand ? opponentHand : "rock"}.png`}
           alt="rock"
         />
-      </div>
+      </motion.div>
+      
       <h2>Choose an option</h2>
       {showOptions ? (
         <div className="options">
