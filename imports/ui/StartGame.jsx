@@ -23,8 +23,8 @@ const Start = () => {
       const otherPlayerIndex = myIndex == 0 ? 1 : 0;
       const otherUsername = currentGame.players[otherPlayerIndex];
       
-      const myChoice = currentGame.winner.choices[myIndex];
-      const opponentsChoice = currentGame.winner.choices[otherPlayerIndex];
+      const myChoice = currentGame?.winner?.choices[myIndex];
+      const opponentsChoice = currentGame?.winner?.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
       setWinner(winner);
 
@@ -47,6 +47,7 @@ const Start = () => {
         className="start"
         onClick={(event) => {
           event.preventDefault();
+          console.log(game.otherUsername);
           setAnimation("moving");
           setOpponentHand(opponentHand);
           Meteor.call("Choice", {
@@ -58,6 +59,7 @@ const Start = () => {
       >
         Start!
       </button>
+      
       <motion.div
         initial="visible"
         animate={animation}
