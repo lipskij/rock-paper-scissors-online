@@ -64,6 +64,7 @@ Meteor.methods({
         GamesCollection.update(payload.gameID, {
           $set: {
             [payload.username]: payload.hand,
+            'winner.choices': [],
           },
         });
       }

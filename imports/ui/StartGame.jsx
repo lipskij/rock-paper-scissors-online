@@ -5,6 +5,10 @@ import { GamesCollection } from "../api/games";
 import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
 
+// TODO: set animation start with rock.png
+// TODO: show 'wait' message after first person pressed START
+// TODO: clear mongo db after ~50 users
+
 const Start = () => {
   const [hand, setHand] = useState("rock");
   const [opponentHand, setOpponentHand] = useState("rock");
@@ -27,6 +31,11 @@ const Start = () => {
       const opponentsChoice = currentGame?.winner?.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
       setWinner(winner);
+      if (currentGame?.winner?.choices?.length === 2) {
+        setAnimation("moving");
+      } else {
+        setAnimation("visible")
+      }
 
       setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
@@ -47,8 +56,6 @@ const Start = () => {
         className="start"
         onClick={(event) => {
           event.preventDefault();
-          console.log(game.otherUsername);
-          setAnimation("moving");
           setOpponentHand(opponentHand);
           Meteor.call("Choice", {
             gameID: Session.get("gameID"),
