@@ -14,6 +14,7 @@ Meteor.methods({
       const gameID = GamesCollection.insert({
         players: [username],
         score: [0, 0],
+        updatedAt: new Date(),
       });
       return { gameID };
     }
@@ -42,21 +43,21 @@ Meteor.methods({
         
         if (winner === me) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: payload.username, choices }},
+            $set: { winner: {username: payload.username, choices }, updatedAt: new Date() },
             $inc: { [`score.${myIndex}`]: 1 },
             $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
         if (winner === oponnent) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: otherUsername, choices } },
+            $set: { winner: {username: otherUsername, choices }, updatedAt: new Date() },
             $inc: { [`score.${otherPlayerIndex}`]: 1 },
             $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
         if (winner === tie) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: tie, choices }},
+            $set: { winner: {username: tie, choices }, updatedAt: new Date() },
             $unset: { [payload.username]: "", [otherUsername]: "" },
           });
         }
@@ -65,6 +66,7 @@ Meteor.methods({
           $set: {
             [payload.username]: payload.hand,
             'winner.choices': [],
+            updatedAt: new Date(),
           },
         });
       }

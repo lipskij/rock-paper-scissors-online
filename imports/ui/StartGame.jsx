@@ -5,9 +5,7 @@ import { GamesCollection } from "../api/games";
 import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
 
-// TODO: set animation start with rock.png
-// TODO: show 'wait' message after first person pressed START
-// TODO: clear mongo db after ~50 users
+// TODO: clear mongo db: createdAt() and updatedAt() clear db if 1hour passed after las update
 // TODO: add function for mobile devices that instead of pressing START you can shake your phone
 
 const Start = () => {
@@ -35,7 +33,7 @@ const Start = () => {
       setOpponentHand(outcomeChoices[1]);
     }
   }
-  console.log(opponentHand);
+  
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
