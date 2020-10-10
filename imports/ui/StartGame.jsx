@@ -15,13 +15,27 @@ const Start = () => {
   const [opponentHand, setOpponentHand] = useState("rock");
   const [winner, setWinner] = useState("");
   const [animation, setAnimation] = useState("visible");
+  const [outcomeChoices, setOutcomeChoices] = useState(['rock', 'rock']);
 
   const variants = {
     visible: {},
     moving: {y: [0, 40, -40, 40, -40, 0]},
   }
-  
-  // console.log(animation);
+
+  function onStart() {
+    if(animation === 'moving') {
+      setHand('rock');
+      setOpponentHand('rock');
+    }
+  }
+
+  function onFinish() {
+    if(animation === 'moving') {
+      setHand(outcomeChoices[0]);
+      setOpponentHand(outcomeChoices[1]);
+    }
+  }
+  console.log(opponentHand);
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
@@ -36,11 +50,11 @@ const Start = () => {
       
       if (currentGame?.winner?.choices?.length === 2) {
         setAnimation("moving");
+        setOutcomeChoices([myChoice, opponentsChoice]);
       } else {
         setAnimation("visible");
       }
 
-      setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
       return {
         otherUsername,
         myScore: currentGame.score[myIndex],
@@ -48,7 +62,7 @@ const Start = () => {
       };
     }
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
-  }, [opponentHand, setOpponentHand, setWinner]);
+  }, [opponentHand, setOpponentHand, setWinner, setOutcomeChoices, setAnimation]);
 
   const showOptions = !!game.otherUsername;
 
@@ -59,7 +73,6 @@ const Start = () => {
         className="start"
         onClick={(event) => {
           event.preventDefault();
-          setOpponentHand(opponentHand);
           Meteor.call("Choice", {
             gameID: Session.get("gameID"),
             username: Session.get("username"),
@@ -70,15 +83,19 @@ const Start = () => {
         Start!
       </button>
 
-      {opponentHand === undefined ? (<h3>Press 'start' or wait for opponent to press 'start'</h3>) : ""}
+      {
+      animation === 'visible'
+        ? (<h3>Press 'start' or wait for opponent to press 'start'</h3>)
+        : null
+      }
       
       <motion.div
         initial="visible"
         animate={animation}
         variants={variants}
         transition={{duration : 1}}
-        // onAnimationStart={onStart}
-        onAnimationComplete={ () => setAnimation("visible")}
+        onAnimationStart={onStart}
+        onAnimationComplete={onFinish}
         className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
         <img
