@@ -8,6 +8,7 @@ import compareChoice from "./compareChoice";
 // TODO: set animation start with rock.png
 // TODO: show 'wait' message after first person pressed START
 // TODO: clear mongo db after ~50 users
+// TODO: add function for mobile devices that instead of pressing START you can shake your phone
 
 const Start = () => {
   const [hand, setHand] = useState("rock");
@@ -17,9 +18,10 @@ const Start = () => {
 
   const variants = {
     visible: {},
-    moving: {y: [0, 40, -40, 40, -40, 0]}
+    moving: {y: [0, 40, -40, 40, -40, 0]},
   }
-  console.log(animation);
+  
+  // console.log(animation);
   const game = useTracker(() => {
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
@@ -31,10 +33,11 @@ const Start = () => {
       const opponentsChoice = currentGame?.winner?.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
       setWinner(winner);
+      
       if (currentGame?.winner?.choices?.length === 2) {
         setAnimation("moving");
       } else {
-        setAnimation("visible")
+        setAnimation("visible");
       }
 
       setOpponentHand(currentGame?.winner?.choices?.[otherPlayerIndex]);
@@ -66,19 +69,22 @@ const Start = () => {
       >
         Start!
       </button>
+
+      {opponentHand === undefined ? (<h3>Press 'start' or wait for opponent to press 'start'</h3>) : ""}
       
       <motion.div
         initial="visible"
         animate={animation}
         variants={variants}
         transition={{duration : 1}}
+        // onAnimationStart={onStart}
         onAnimationComplete={ () => setAnimation("visible")}
         className="hands">
         <img className="player1" src={`/${hand}.png`} alt="paper" />
         <img
           className="player2"
           src={`/${opponentHand ? opponentHand : "rock"}.png`}
-          alt="rock"
+          alt="hand"
         />
       </motion.div>
       
