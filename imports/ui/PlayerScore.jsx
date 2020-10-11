@@ -20,14 +20,16 @@ const PlayerScore = () => {
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
   });
 
+  const showScore = !!game.otherUsername;
+
   return (
     <div className="score">
       <h2>
         {Session.get("username")} score: {game.myScore}
       </h2>
-      <h2>
+      {showScore ? (<h2>
         {game.otherUsername} score: {game.opponentsScore}
-      </h2>
+      </h2>) : ""}
     </div>
   );
 };

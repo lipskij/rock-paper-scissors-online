@@ -1,7 +1,8 @@
 body {
-  padding: 10px;
   font-family: sans-serif;
   background-color: #f3f0fa;
+  margin: 0;
+  height: 100vh;
 }
 
 .game-ui {
@@ -21,15 +22,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 50vh;
+  height: 70vh;
 }
 
 .score {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 80vw;
+  width: 100vw;
   height: 10vh;
   color: #1f0c44;
 }
@@ -76,4 +76,17 @@ h3 {
 
 .player1 {
   transform: rotateY(180deg);
+}
+
+@media screen and (min-width: 300px) {
+  .match {
+    max-width: 100vh;
+    max-height: 100vh;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

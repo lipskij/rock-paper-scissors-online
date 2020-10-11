@@ -81,11 +81,7 @@ const Start = () => {
         Start!
       </button>
 
-      {
-      animation === 'visible'
-        ? (<h3>Press 'start' or wait for opponent to press 'start'</h3>)
-        : null
-      }
+      
       
       <motion.div
         initial="visible"
@@ -119,6 +115,13 @@ const Start = () => {
       ) : (
         "Wait for other player"
       )}
+      <div>
+        {
+        animation === 'visible'
+          ? (<h3>Choose an option and press 'start' or wait for opponent to press 'start'</h3>)
+          : null
+        }
+      </div>
     </div>
   );
 };
