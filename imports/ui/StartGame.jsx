@@ -5,8 +5,6 @@ import { GamesCollection } from "../api/games";
 import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
 
-// TODO: delete unsecure packages
-// TODO: add meteor.publish('games')
 // TODO: add function for mobile devices that instead of pressing START you can shake your phone
 
 const Start = () => {
@@ -39,6 +37,7 @@ const Start = () => {
   }
   
   const game = useTracker(() => {
+    Meteor.subscribe('games');
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
@@ -67,8 +66,6 @@ const Start = () => {
   }, [opponentHand, setOpponentHand, setWinner, setOutcomeChoices, setAnimation, setOutcomeMessage]);
 
   const showOptions = !!game.otherUsername;
-
-  console.log(animation);
 
   return (
     <div className="match">

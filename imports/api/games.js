@@ -3,6 +3,14 @@ import rockPaper, { tie, me, oponnent } from "../ui/compareChoice";
 
 export const GamesCollection = new Mongo.Collection("games");
 
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('games', () => {
+    // TODO: return only games aplicable to the player
+    return GamesCollection.find();
+  });
+}
+
 Meteor.methods({
   CreateGame(username) {
     const games = GamesCollection.find({

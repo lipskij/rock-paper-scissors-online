@@ -5,6 +5,7 @@ import { useTracker } from "meteor/react-meteor-data";
 
 const PlayerScore = () => {
   const game = useTracker(() => {
+    Meteor.subscribe('games');
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
     if (currentGame && currentGame.players) {
       const myIndex = currentGame.players.indexOf(Session.get("username"));
