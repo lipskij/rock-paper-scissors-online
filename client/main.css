@@ -78,15 +78,11 @@ h3 {
   transform: rotateY(180deg);
 }
 
-@media screen and (min-width: 300px) {
-  .match {
-    max-width: 100vh;
-    max-height: 100vh;
-  }
+/* media do not change the font */
 
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media screen and (max-width: 500px) {
+  h2,
+  h3 {
+    font-size: 5rem;
   }
 }
