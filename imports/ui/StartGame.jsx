@@ -51,6 +51,7 @@ const Start = () => {
         setOutcomeChoices([myChoice, opponentsChoice]);
       } else {
         setAnimation("visible");
+        setWinner("");
       }
 
       return {
@@ -66,7 +67,8 @@ const Start = () => {
 
   return (
     <div className="match">
-      <h2>{winner}</h2>
+      {showOptions ? (<h2>{winner}</h2>) : ""}
+      
       <button
         className="start"
         onClick={(event) => {

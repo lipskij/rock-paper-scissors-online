@@ -10,11 +10,12 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100vw;
 }
 
 .title {
   text-align: center;
-  height: 10vh;
+  /* height: 10vh; */
   color: #1f0c44;
 }
 
@@ -22,7 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 70vh;
+  /* height: 70vh; */
 }
 
 .score {
@@ -30,7 +31,7 @@ body {
   align-items: center;
   justify-content: space-around;
   width: 100vw;
-  height: 10vh;
+  /* height: 15vh; */
   color: #1f0c44;
 }
 
@@ -43,7 +44,7 @@ body {
 
 .input {
   height: 1.5rem;
-  width: 20rem;
+  width: 40vw;
   outline: none;
 }
 
@@ -58,6 +59,7 @@ body {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  transition: all .2s ease-in-out;
 }
 
 .username:hover,
@@ -67,6 +69,7 @@ body {
 .scissors:hover {
   background-color: #1f0c44;
   color: #fab26e;
+  transform: scale(1.1);
 }
 
 h2,
@@ -78,11 +81,25 @@ h3 {
   transform: rotateY(180deg);
 }
 
-/* media do not change the font */
-
-@media screen and (max-width: 500px) {
-  h2,
-  h3 {
-    font-size: 5rem;
+@media screen and (max-width: 550px) {
+  form {
+    display: flex;
+    align-items: center;
+  }
+  .player1,
+  .player2 {
+    width: 50vw;
+  }
+  h3,
+  h2 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .match {
+    /* height: 50vh; */
+  }
+  .options {
+    width: 80vw;
   }
 }
