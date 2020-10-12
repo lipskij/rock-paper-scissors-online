@@ -4,9 +4,10 @@ import { useTracker } from "meteor/react-meteor-data";
 import { GamesCollection } from "../api/games";
 import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
+
 // TODO: show winner message after animation
 // TODO: delete unsecure packages
-// TODO: meteor.publish('games')
+// TODO: add meteor.publish('games')
 // TODO: add function for mobile devices that instead of pressing START you can shake your phone
 
 const Start = () => {
@@ -69,7 +70,7 @@ const Start = () => {
 
   return (
     <div className="match">
-      {animation === 'visible' ? <h2>Wait...</h2> : <h2>{winner}</h2>}
+      {animation === 'visible' ? (<h2>Wait...</h2>) : (<h2>{winner}</h2>)}
       
       <button
         className="start"
