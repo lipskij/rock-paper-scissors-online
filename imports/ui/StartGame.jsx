@@ -5,7 +5,6 @@ import { GamesCollection } from "../api/games";
 import { motion } from "framer-motion";
 import compareChoice from "./compareChoice";
 
-// TODO: show winner message after animation
 // TODO: delete unsecure packages
 // TODO: add meteor.publish('games')
 // TODO: add function for mobile devices that instead of pressing START you can shake your phone
@@ -16,6 +15,7 @@ const Start = () => {
   const [winner, setWinner] = useState("");
   const [animation, setAnimation] = useState("visible");
   const [outcomeChoices, setOutcomeChoices] = useState(['rock', 'rock']);
+  const [outcomeMessage, setOutcomeMessage] = useState("");
 
   const variants = {
     visible: {},
@@ -26,6 +26,7 @@ const Start = () => {
     if(animation === 'moving') {
       setHand('rock');
       setOpponentHand('rock');
+      setWinner("1-2-3");
     }
   }
 
@@ -33,6 +34,7 @@ const Start = () => {
     if(animation === 'moving') {
       setHand(outcomeChoices[0]);
       setOpponentHand(outcomeChoices[1]);
+      setWinner(outcomeMessage);
     }
   }
   
@@ -46,11 +48,11 @@ const Start = () => {
       const myChoice = currentGame?.winner?.choices[myIndex];
       const opponentsChoice = currentGame?.winner?.choices[otherPlayerIndex];
       const winner = compareChoice(myChoice, opponentsChoice);
-      setWinner(winner);
       
       if (currentGame?.winner?.choices?.length === 2) {
         setAnimation("moving");
         setOutcomeChoices([myChoice, opponentsChoice]);
+        setOutcomeMessage(winner)
       } else {
         setAnimation("visible");
       }
@@ -62,7 +64,7 @@ const Start = () => {
       };
     }
     return { otherUsername: "", myScore: 0, opponentsScore: 0 };
-  }, [opponentHand, setOpponentHand, setWinner, setOutcomeChoices, setAnimation]);
+  }, [opponentHand, setOpponentHand, setWinner, setOutcomeChoices, setAnimation, setOutcomeMessage]);
 
   const showOptions = !!game.otherUsername;
 
