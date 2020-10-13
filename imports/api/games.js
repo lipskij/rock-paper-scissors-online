@@ -1,7 +1,7 @@
-import { Mongo } from "meteor/mongo";
-import rockPaper, { tie, me, oponnent } from "../ui/compareChoice";
+import { Mongo } from 'meteor/mongo';
+import rockPaper, { tie, me, oponnent } from '../ui/compareChoice';
 
-export const GamesCollection = new Mongo.Collection("games");
+export const GamesCollection = new Mongo.Collection('games');
 
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -48,25 +48,31 @@ Meteor.methods({
 
         choices[myIndex] = payload.hand;
         choices[otherPlayerIndex] = opponentsChoice;
-        
+
         if (winner === me) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: payload.username, choices }, updatedAt: new Date() },
+            $set: {
+              winner: { username: payload.username, choices },
+              updatedAt: new Date(),
+            },
             $inc: { [`score.${myIndex}`]: 1 },
-            $unset: { [payload.username]: "", [otherUsername]: "" },
+            $unset: { [payload.username]: '', [otherUsername]: '' },
           });
         }
         if (winner === oponnent) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: otherUsername, choices }, updatedAt: new Date() },
+            $set: {
+              winner: { username: otherUsername, choices },
+              updatedAt: new Date(),
+            },
             $inc: { [`score.${otherPlayerIndex}`]: 1 },
-            $unset: { [payload.username]: "", [otherUsername]: "" },
+            $unset: { [payload.username]: '', [otherUsername]: '' },
           });
         }
         if (winner === tie) {
           return GamesCollection.update(game._id, {
-            $set: { winner: {username: tie, choices }, updatedAt: new Date() },
-            $unset: { [payload.username]: "", [otherUsername]: "" },
+            $set: { winner: { username: tie, choices }, updatedAt: new Date() },
+            $unset: { [payload.username]: '', [otherUsername]: '' },
           });
         }
       } else {

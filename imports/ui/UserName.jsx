@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { Session } from "meteor/session";
+import React, { useState } from 'react';
+import { Session } from 'meteor/session';
 
 const UserName = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [hideInput, setHideInput] = useState(false);
 
-  return (
-    hideInput ? null :
+  return hideInput ? null : (
     <form className="name">
-      <label htmlFor="input"> 
+      <label htmlFor="input">
         <input
           onChange={(event) => setInput(event.target.value)}
           type="text"
@@ -20,7 +19,7 @@ const UserName = () => {
       <button
         onClick={(event) => {
           event.preventDefault();
-          Meteor.call("CreateGame", input, (error, result) => {
+          Meteor.call('CreateGame', input, (error, result) => {
             Session.set({
               gameID: result.gameID,
               username: input,
