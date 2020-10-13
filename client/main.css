@@ -74,7 +74,10 @@ body {
   transform: scale(1.1);
 }
 
-.start:disabled {
+.start:disabled,
+.rock:disabled,
+.paper:disabled,
+.scissors:disabled {
   background-color: grey;
   color: #f3f0fa;
 }

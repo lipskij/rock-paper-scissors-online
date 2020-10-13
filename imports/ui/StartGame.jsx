@@ -105,13 +105,16 @@ const Start = () => {
       <h2>Choose an option</h2>
       {showOptions ? (
         <div className="options">
-          <button onClick={() => setHand("rock")} className="rock">
+          <button disabled={outcomeMessage === winner ? false : true}
+           onClick={() => setHand("rock")} className="rock">
             Rock
           </button>
-          <button onClick={() => setHand("paper")} className="paper">
+          <button disabled={outcomeMessage === winner ? false : true}
+           onClick={() => setHand("paper")} className="paper">
             Paper
           </button>
-          <button onClick={() => setHand("scissors")} className="scissors">
+          <button disabled={outcomeMessage === winner ? false : true}
+           onClick={() => setHand("scissors")} className="scissors">
             Scissors
           </button>
         </div>
