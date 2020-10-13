@@ -72,6 +72,7 @@ const Start = () => {
       {animation === 'visible' ? (<h2>Wait...</h2>) : (<h2>{winner}</h2>)}
       
       <button
+        disabled={outcomeMessage === winner ? false : true}
         className="start"
         onClick={(event) => {
           event.preventDefault();

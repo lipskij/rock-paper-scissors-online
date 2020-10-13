@@ -2,6 +2,7 @@ body {
   font-family: sans-serif;
   background-color: #f3f0fa;
   margin: 0;
+  overscroll-behavior: contain;
 }
 
 .game-ui {
@@ -71,6 +72,11 @@ body {
   background-color: #1f0c44;
   color: #fab26e;
   transform: scale(1.1);
+}
+
+.start:disabled {
+  background-color: grey;
+  color: #f3f0fa;
 }
 
 h2,
