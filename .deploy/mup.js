@@ -56,8 +56,8 @@ module.exports = {
 
   proxy: {
     domains: 'zaap.site,www.zaap.site',
-
     ssl: {
+      forceSSL : true,
       // Enable Let's Encrypt
       letsEncryptEmail: 'emil.lipskij@gmail.com'
     }

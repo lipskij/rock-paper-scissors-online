@@ -8,12 +8,13 @@ const UserName = () => {
   return (
     hideInput ? null :
     <form className="name">
-      <label>
+      <label htmlFor="input"> 
         <input
           onChange={(event) => setInput(event.target.value)}
           type="text"
           placeholder="Username"
           className="input"
+          id="input"
         />
       </label>
       <button
