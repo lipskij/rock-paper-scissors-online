@@ -140,10 +140,7 @@ const Start = () => {
       )}
       <div>
         {animation === 'visible' ? (
-          <h3 className="message">
-            Choose an option and press 'start' or wait for opponent to press
-            'start'
-          </h3>
+          <h3 className="message">Waiting for opponent...</h3>
         ) : null}
       </div>
     </div>
