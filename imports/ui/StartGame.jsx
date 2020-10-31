@@ -79,7 +79,7 @@ const Start = () => {
       {animation === 'visible' ? <h2>Wait...</h2> : <h2>{winner}</h2>}
 
       <button
-        disabled={outcomeMessage === winner ? false : true}
+        disabled={outcomeMessage === winner && showOptions ? false : true}
         className="start"
         onClick={(event) => {
           event.preventDefault();
@@ -136,7 +136,7 @@ const Start = () => {
           </button>
         </div>
       ) : (
-        'Wait for other player'
+        <h3 className="message">Wait for other player to connect</h3>
       )}
       <div>
         {animation === 'visible' ? (

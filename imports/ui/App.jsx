@@ -1,7 +1,7 @@
-import React from "react";
-import PlayerScore from "./PlayerScore";
-import Start from "./StartGame";
-import UserName from "./UserName";
+import React from 'react';
+import PlayerScore from './PlayerScore';
+import Start from './StartGame';
+import UserName from './UserName';
 
 export const App = () => {
   return (
