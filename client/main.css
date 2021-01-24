@@ -106,6 +106,16 @@ h3 {
   transform: rotateY(180deg);
 }
 
+/* waiting room css */
+.room {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100vw;
+  width: 10rem;
+  background-color: #beb8cc;
+}
+
 @media screen and (max-width: 550px) {
   form {
     display: flex;

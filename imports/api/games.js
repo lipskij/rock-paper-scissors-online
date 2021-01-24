@@ -11,7 +11,24 @@ if (Meteor.isServer) {
   });
 }
 
+// create player array
+
 Meteor.methods({
+  // PlayerList(username) {
+  //   const room = GamesCollection.find({
+  //     players: {
+  //       $size: 19,
+  //     },
+  //   });
+  //   if (room.count() === 0) {
+  //     const list = GamesCollection.insert({
+  //       players: [username],
+  //       updatedAt: new Date(),
+  //     });
+  //     return { list };
+  //   }
+  // },
+
   CreateGame(username) {
     const games = GamesCollection.find({
       players: {
