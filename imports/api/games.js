@@ -14,41 +14,45 @@ if (Meteor.isServer) {
 // create player array
 
 Meteor.methods({
-  // PlayerList(username) {
-  //   const room = GamesCollection.find({
-  //     players: {
-  //       $size: 19,
-  //     },
-  //   });
-  //   if (room.count() === 0) {
-  //     const list = GamesCollection.insert({
-  //       players: [username],
-  //       updatedAt: new Date(),
-  //     });
-  //     return { list };
-  //   }
-  // },
-
-  CreateGame(username) {
-    const games = GamesCollection.find({
-      players: {
-        $size: 1,
-      },
+  PlayerList(username) {
+    const room = GamesCollection.find({
+      players: {},
     });
-    if (games.count() === 0) {
-      const gameID = GamesCollection.insert({
+    if (room) {
+      // if room has a player it adds it to the list
+      const list = GamesCollection.insert({
         players: [username],
-        score: [0, 0],
         updatedAt: new Date(),
       });
-      return { gameID };
+      return { list };
     }
-    const existingGame = games.fetch()[0];
-    GamesCollection.update(existingGame._id, {
-      $addToSet: { players: username },
-    });
-    return { gameID: existingGame._id };
+    // const all = room.fetch();
+    // GamesCollection.update(all, {
+    //   $addToSet: { player: username },
+    // });
+    // return { list: all };
   },
+
+  // CreateGame(username) {
+  //   const games = GamesCollection.find({
+  //     players: {
+  //       $size: 1,
+  //     },
+  //   });
+  //   if (games.count() === 0) {
+  //     const gameID = GamesCollection.insert({
+  //       players: [username],
+  //       score: [0, 0],
+  //       updatedAt: new Date(),
+  //     });
+  //     return { gameID };
+  //   }
+  //   const existingGame = games.fetch()[0];
+  //   GamesCollection.update(existingGame._id, {
+  //     $addToSet: { players: username },
+  //   });
+  //   return { gameID: existingGame._id };
+  // },
 
   Choice(payload) {
     const game = GamesCollection.findOne(payload.gameID);

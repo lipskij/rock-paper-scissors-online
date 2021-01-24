@@ -3,31 +3,25 @@ import { Session } from 'meteor/session';
 import { useTracker } from 'meteor/react-meteor-data';
 import { GamesCollection } from '../api/games';
 
-const Room = () => {
-  const game = useTracker(() => {
-    Meteor.subscribe('games');
-    const loggedIn = GamesCollection.findOne(Session.get('gameID'));
-    if (loggedIn && loggedIn.players) {
-      const myIndex = loggedIn.players.indexOf(Session.get('username'));
-      const otherPlayerIndex = myIndex == 0 ? 1 : 0;
-      const otherUsername = loggedIn.players[otherPlayerIndex];
-      const myUsername = loggedIn.players[myIndex];
+// it inserts only one username at a time idk why
 
-      return { otherUsername, myUsername };
+const Room = () => {
+  const list = useTracker(() => {
+    Meteor.subscribe('room');
+    const loggedIn = GamesCollection.findOne(Session.get('list'));
+
+    if (loggedIn && loggedIn.players) {
+      const playerList = loggedIn.players.map(() => Session.get('username'));
+
+      return { playerList };
     }
-    return { otherUsername: '', myUsername : '' };
+    return { playerList: '' };
   });
   return (
     <div className="room">
-      <ul>
-        <li>Waiting Room</li>
-        <h3>
-          {Session.get('username')}
-        </h3>
-        <h3>
-          {game.otherUsername}
-        </h3>
-      </ul>
+      <h3>Waiting Room</h3>
+      <h3>{list.playerList}</h3>
+      {console.log(list)}
     </div>
   );
 };
