@@ -5,7 +5,7 @@ export const GamesCollection = new Mongo.Collection('games');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('games', () => {
+  Meteor.publish('room', () => {
     // TODO: return only games aplicable to the player
     return GamesCollection.find();
   });
@@ -19,14 +19,13 @@ Meteor.methods({
       players: {},
     });
     if (room) {
-      // if room has a player it adds it to the list
       const list = GamesCollection.insert({
         players: [username],
         updatedAt: new Date(),
       });
       return { list };
     }
-    // const all = room.fetch();
+    // const all = room.fetch()[0];
     // GamesCollection.update(all, {
     //   $addToSet: { player: username },
     // });

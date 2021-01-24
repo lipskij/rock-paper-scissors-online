@@ -11,7 +11,7 @@ export const App = () => {
       <InstallButton />
       <h1 className="title">Rock Paper Scissors</h1>
       <UserName />
-      <PlayerScore />
+      {/* <PlayerScore /> */}
       <PlayerRoom />
       <Start />
     </div>
