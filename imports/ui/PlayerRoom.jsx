@@ -6,23 +6,22 @@ import { GamesCollection } from '../api/games';
 // it inserts only one username at a time idk why
 
 const Room = () => {
-  const list = useTracker(() => {
-    Meteor.subscribe('room');
+  const room = useTracker(() => {
+    Meteor.subscribe('games');
 
-    const loggedIn = GamesCollection.findOne(Session.get('list'));
-
-    if (loggedIn && loggedIn.players) {
-      const playerName = loggedIn.players.map(() => (Session.get('username')));
-
-      return { playerName };
+    const waitingRoom = GamesCollection.findOne(Session.get('gameID'));
+    if (waitingRoom && waitingRoom.players) {
+      const player = waitingRoom.players?.map(() => Session.get('username'));
+      return { player };
     }
-    return { playerName: '' };
+    return {player: ''}
   });
+
   return (
     <div className="room">
       <h3>Waiting Room</h3>
-      <h3>{list.playerName}</h3>
-      {console.log(list)}
+      <h3>{room.player}</h3>
+      {console.log(room.player)}
     </div>
   );
 };

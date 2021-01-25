@@ -56,11 +56,14 @@ S | S | TIE
 
 Room of people that are logged in and available to play with
 
-We can add usernames from gameCollection.
-Need to rewrite logic how game is developing:
+1. Create an players object that has 'players' array.
+2. That array consist of [username: 'name', _id: 'id]
+   so basicaly '{players: [{username: 'name', _id: 'id'}]}'
 
-1. After submitting username no new game is started.
-2. Instead all players storred in array.
+3. After submitting username no new game is started.
+4. Instead all players storred in array.
+
+Need to rewrite logic how game is developing:
 
 Method that allows call for a match on click on the user in the waiting room.
 (should pop up an invitation request with message 'username' whants to play with you 'accept' or 'decline')

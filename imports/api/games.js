@@ -2,56 +2,61 @@ import { Mongo } from 'meteor/mongo';
 import rockPaper, { tie, me, oponnent } from '../ui/compareChoice';
 
 export const GamesCollection = new Mongo.Collection('games');
+// export const PlayerCollection = new Mongo.Collection('players');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('room', () => {
+  Meteor.publish('games', () => {
     // TODO: return only games aplicable to the player
     return GamesCollection.find();
   });
 }
 
-// create player array
+// if (Meteor.isServer) {
+//   Meteor.publish('players', () => {
+//     return PlayerCollection.find();
+//   });
+// }
 
 Meteor.methods({
-  PlayerList(username) {
-    const room = GamesCollection.find({
-      players: {},
+  // CreateRoom(name) {
+  //   const players = PlayerCollection.find({
+  //     players: [],
+  //   });
+  //   if (players.count() >= 0) {
+  //     PlayerCollection.insert({
+  //       players: [name],
+  //     });
+  //     return { players };
+  //   }
+  //   PlayerCollection.update(
+  //     {
+  //       $addToSet: { players: name },
+  //     }.fetch()
+  //   );
+  //   console.log(PlayerCollection.find().fetch());
+  // },
+  CreateGame(username) {
+    const games = GamesCollection.find({
+      players: {
+        $size: 1,
+      },
     });
-    if (room) {
-      const list = GamesCollection.insert({
+    if (games.count() === 0) {
+      const gameID = GamesCollection.insert({
         players: [username],
+        score: [0, 0],
         updatedAt: new Date(),
       });
-      return { list };
+      return { gameID };
     }
-    // const all = room.fetch()[0];
-    // GamesCollection.update(all, {
-    //   $addToSet: { player: username },
-    // });
-    // return { list: all };
+    const existingGame = games.fetch()[0];
+    GamesCollection.update(existingGame._id, {
+      $addToSet: { players: username },
+    });
+    console.log(GamesCollection.find().fetch()[0].players);
+    return { gameID: existingGame._id };
   },
-
-  // CreateGame(username) {
-  //   const games = GamesCollection.find({
-  //     players: {
-  //       $size: 1,
-  //     },
-  //   });
-  //   if (games.count() === 0) {
-  //     const gameID = GamesCollection.insert({
-  //       players: [username],
-  //       score: [0, 0],
-  //       updatedAt: new Date(),
-  //     });
-  //     return { gameID };
-  //   }
-  //   const existingGame = games.fetch()[0];
-  //   GamesCollection.update(existingGame._id, {
-  //     $addToSet: { players: username },
-  //   });
-  //   return { gameID: existingGame._id };
-  // },
 
   Choice(payload) {
     const game = GamesCollection.findOne(payload.gameID);
