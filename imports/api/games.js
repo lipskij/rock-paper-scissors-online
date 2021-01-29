@@ -2,7 +2,6 @@ import { Mongo } from 'meteor/mongo';
 import rockPaper, { tie, me, oponnent } from '../ui/compareChoice';
 
 export const GamesCollection = new Mongo.Collection('games');
-// export const PlayerCollection = new Mongo.Collection('players');
 
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -12,30 +11,7 @@ if (Meteor.isServer) {
   });
 }
 
-// if (Meteor.isServer) {
-//   Meteor.publish('players', () => {
-//     return PlayerCollection.find();
-//   });
-// }
-
 Meteor.methods({
-  // CreateRoom(name) {
-  //   const players = PlayerCollection.find({
-  //     players: [],
-  //   });
-  //   if (players.count() >= 0) {
-  //     PlayerCollection.insert({
-  //       players: [name],
-  //     });
-  //     return { players };
-  //   }
-  //   PlayerCollection.update(
-  //     {
-  //       $addToSet: { players: name },
-  //     }.fetch()
-  //   );
-  //   console.log(PlayerCollection.find().fetch());
-  // },
   CreateGame(username) {
     const games = GamesCollection.find({
       players: {

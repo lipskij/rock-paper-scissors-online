@@ -1,17 +1,17 @@
 import React from 'react';
 import { Session } from 'meteor/session';
 import { useTracker } from 'meteor/react-meteor-data';
-import { GamesCollection } from '../api/games';
+import { PlayerCollection } from '../api/players';
 
 // it inserts only one username at a time idk why
 
 const Room = () => {
   const room = useTracker(() => {
-    Meteor.subscribe('games');
+    Meteor.subscribe('players');
 
-    const waitingRoom = GamesCollection.findOne(Session.get('gameID'));
-    if (waitingRoom && waitingRoom.players) {
-      const player = waitingRoom.players?.map(() => Session.get('username'));
+    const waitingRoom = PlayerCollection.findOne(Session.get('playersID'));
+    if (waitingRoom && waitingRoom.users) {
+      const player = waitingRoom.users.map(() =>Session.get('name'));
       return { player };
     }
     return {player: ''}

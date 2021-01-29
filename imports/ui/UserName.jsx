@@ -19,10 +19,10 @@ const UserName = () => {
       <button
         onClick={(event) => {
           event.preventDefault();
-          Meteor.call('CreateGame', input, (error, result) => {
+          Meteor.call('CreateRoom', input, (error, result) => {
             Session.set({
-              gameID: result.gameID,
-              username: input,
+              playersID: result.playersID,
+              name: input,
             });
             setHideInput(true);
           });
