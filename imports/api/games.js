@@ -6,7 +6,7 @@ export const GamesCollection = new Mongo.Collection('games');
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('games', () => {
-    // TODO: return only games aplicable to the player
+    // TODO: return only games aplicable to the players
     return GamesCollection.find();
   });
 }
