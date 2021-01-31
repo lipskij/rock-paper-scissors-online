@@ -2,9 +2,9 @@ import React from "react";
 import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { PlayerCollection } from "../api/players";
-import { GamesCollection } from "../api/games";
 
-// add unique key to every name
+// show new/all connected players to every player
+// put the list on the right side of the screen
 
 const Room = () => {
   const game = useTracker(() => {
@@ -18,30 +18,16 @@ const Room = () => {
     return { player: "" };
   });
 
-  const key = PlayerCollection.find()
-    .fetch()
-    .map((item) => item._id);
-
   return (
     <div className="room">
       <h3>Waiting Room</h3>
-      <ul>
+      <ul className="list">
         {PlayerCollection.find()
           .fetch()
-          .map((item) => (
-            <li
-              key={key}
-            >
-              {item.users[0].toString()}
-            </li>
+          .map((item, key) => (
+            <li key={key}>{item.users[0].toString()}</li>
           ))}
       </ul>
-      {console.log(
-        PlayerCollection.find()
-          .fetch()
-          .map((item) => item._id)
-      )}
-      {console.log(game.player)}
     </div>
   );
 };
