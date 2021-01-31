@@ -10,23 +10,12 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   CreateRoom(name) {
-    const players = PlayerCollection.find({
-      users: {
-        $size: 19,
-      },
+    const players = PlayerCollection.insert({
+      users: [name],
+      updatedAt: new Date(),
     });
-    if (players.count() === 0) {
-      const playerID = PlayerCollection.insert({
-        users: [name],
-        updatedAt: new Date(),
-      });
-      return { playerID };
-    }
-    const blah = players.fetch()[0];
-    PlayerCollection.update(blah._id, {
-      $addToSet: { users: name },
-    });
-    console.log(PlayerCollection.find().fetch()[0].users)
-    return { playerID: blah._id };
+    console.log(PlayerCollection.find().fetch());
+
+    return { players };
   },
 });

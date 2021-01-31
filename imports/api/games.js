@@ -30,7 +30,7 @@ Meteor.methods({
     GamesCollection.update(existingGame._id, {
       $addToSet: { players: username },
     });
-    console.log(GamesCollection.find().fetch()[0].players);
+    // console.log(GamesCollection.find().fetch()[0]);
     return { gameID: existingGame._id };
   },
 

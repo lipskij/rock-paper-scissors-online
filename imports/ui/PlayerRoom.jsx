@@ -1,27 +1,47 @@
-import React from 'react';
-import { Session } from 'meteor/session';
-import { useTracker } from 'meteor/react-meteor-data';
-import { PlayerCollection } from '../api/players';
+import React from "react";
+import { Session } from "meteor/session";
+import { useTracker } from "meteor/react-meteor-data";
+import { PlayerCollection } from "../api/players";
+import { GamesCollection } from "../api/games";
 
-// it inserts only one username at a time idk why
+// add unique key to every name
 
 const Room = () => {
-  const room = useTracker(() => {
-    Meteor.subscribe('players');
+  const game = useTracker(() => {
+    Meteor.subscribe("players");
 
-    const waitingRoom = PlayerCollection.findOne(Session.get('playersID'));
+    const waitingRoom = PlayerCollection.findOne(Session.get("players"));
     if (waitingRoom && waitingRoom.users) {
-      const player = waitingRoom.users.map(() =>Session.get('name'));
+      const player = waitingRoom.users.indexOf(Session.get("users"));
       return { player };
     }
-    return {player: ''}
+    return { player: "" };
   });
+
+  const key = PlayerCollection.find()
+    .fetch()
+    .map((item) => item._id);
 
   return (
     <div className="room">
       <h3>Waiting Room</h3>
-      <h3>{room.player}</h3>
-      {console.log(room.player)}
+      <ul>
+        {PlayerCollection.find()
+          .fetch()
+          .map((item) => (
+            <li
+              key={key}
+            >
+              {item.users[0].toString()}
+            </li>
+          ))}
+      </ul>
+      {console.log(
+        PlayerCollection.find()
+          .fetch()
+          .map((item) => item._id)
+      )}
+      {console.log(game.player)}
     </div>
   );
 };

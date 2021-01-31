@@ -21,8 +21,8 @@ const UserName = () => {
           event.preventDefault();
           Meteor.call('CreateRoom', input, (error, result) => {
             Session.set({
-              playersID: result.playersID,
-              name: input,
+              players: result.players,
+              users: input,
             });
             setHideInput(true);
           });

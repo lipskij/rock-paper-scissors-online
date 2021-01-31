@@ -22,9 +22,7 @@ Meteor.startup(() => {
 
 Meteor.startup(() => {
   const players = PlayerCollection.find({
-    users: {
-      $size: 19,
-    },
+    users: {},
   });
 
   players.observe({});
