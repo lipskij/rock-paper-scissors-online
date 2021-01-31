@@ -11,8 +11,8 @@ const Room = () => {
     Meteor.subscribe("players");
 
     const waitingRoom = PlayerCollection.findOne(Session.get("players"));
-    if (waitingRoom && waitingRoom.users) {
-      const player = waitingRoom.users.indexOf(Session.get("users"));
+    if (waitingRoom && waitingRoom.user) {
+      const player = waitingRoom.user.map(() => (Session.get("users")));
       return { player };
     }
     return { player: "" };
@@ -25,7 +25,7 @@ const Room = () => {
         {PlayerCollection.find()
           .fetch()
           .map((item, key) => (
-            <li key={key}>{item.users[0].toString()}</li>
+            <li key={key}>{item.user[0].toString()}</li>
           ))}
       </ul>
     </div>

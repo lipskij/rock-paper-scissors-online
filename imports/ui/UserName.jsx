@@ -22,7 +22,7 @@ const UserName = () => {
           Meteor.call('CreateRoom', input, (error, result) => {
             Session.set({
               players: result.players,
-              users: input,
+              user: input,
             });
             setHideInput(true);
           });

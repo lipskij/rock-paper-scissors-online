@@ -11,7 +11,7 @@ if (Meteor.isServer) {
 Meteor.methods({
   CreateRoom(name) {
     const players = PlayerCollection.insert({
-      users: [name],
+      user: [name],
       updatedAt: new Date(),
     });
     console.log(PlayerCollection.find().fetch());
