@@ -1,7 +1,14 @@
 {
-  "galaxy.meteor.com": {
-    "env": {
-      "MONGO_URL": "mongodb://emilis:nvS26BDwFHJAikzPR@SG-galaxycluster-38726.servers.mongodirector.com:27017,SG-galaxycluster-38727.servers.mongodirector.com:27017/vaskichi-meteorapp-com?replicaSet=RS-galaxycluster-0&ssl=true."
+    "packages": {
+        "mongo": {
+            "options": {
+                "tlsAllowInvalidCertificates": true
+            }
+        }
+    },
+    "galaxy.meteor.com": {
+        "env": {
+            "MONGO_URL": "mongodb://emilis:nvS26BDwFHJAikzPR@SG-galaxycluster-38726.servers.mongodirector.com:27017,SG-galaxycluster-38727.servers.mongodirector.com:27017/vaskichi-meteorapp-com?replicaSet=RS-galaxycluster-0&ssl=true"
+        }
     }
-  }
 }
