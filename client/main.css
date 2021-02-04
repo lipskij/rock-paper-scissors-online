@@ -62,6 +62,8 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  border-radius: 3px;
+  outline: none;
 }
 
 .username:hover,
@@ -72,6 +74,7 @@ body {
   background-color: #1f0c44;
   color: #fab26e;
   transform: scale(1.05);
+  box-shadow: 5px 5px 5px #99999b;
 }
 
 .start:disabled,
@@ -90,6 +93,8 @@ body {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   transform: scale(1.05);
+  border-radius: 3px;
+  outline: none;
 }
 .add-button:hover {
   background-color: #1f0c44;
