@@ -111,9 +111,17 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vw;
-  width: 10rem;
-  background-color: #beb8cc;
+  position: fixed;
+  right: 0;
+  z-index: 2;
+  height: 100%;
+  width: 20vw;
+  background-color: rgba(85, 69, 95, 0.5);
+  transition: all 0.2s ease-out;
+  transform: translateX(0%)
+}
+.room-closed {
+  transform: translateX(100%)
 }
 
 .list {

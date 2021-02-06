@@ -3,8 +3,12 @@ import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { PlayerCollection } from "../api/players";
 
-// show new/all connected players to every player
-// put the list on the right side of the screen
+// show new/all connected players to every player after putting in username
+// put the list on the right side of the screen(done)
+// TODO: hidden before username input
+// TODO: hidden after selecting and starting a game
+// TODO: update list of players after each username input
+// TODO: fix how we pun players to array
 
 const Room = () => {
   const game = useTracker(() => {
@@ -12,14 +16,14 @@ const Room = () => {
 
     const waitingRoom = PlayerCollection.findOne(Session.get("players"));
     if (waitingRoom && waitingRoom.user) {
-      const player = waitingRoom.user.map(() => (Session.get("users")));
+      const player = waitingRoom.user.map(() => Session.get("users"));
       return { player };
     }
     return { player: "" };
   });
 
   return (
-    <div className="room">
+    <div className={game.player.length > 0 ? "room" : "room-closed"}>
       <h3>Waiting Room</h3>
       <ul className="list">
         {PlayerCollection.find()

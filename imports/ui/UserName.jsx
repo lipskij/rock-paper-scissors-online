@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Session } from 'meteor/session';
+import React, { useState } from "react";
+import { Session } from "meteor/session";
+import PlayerRoom from "./PlayerRoom";
 
 const UserName = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [hideInput, setHideInput] = useState(false);
-  //hideInput ? null :
-  return (
+
+  return hideInput ? (
+    <PlayerRoom />
+  ) : (
     <form className="name">
       <label htmlFor="input">
         <input
@@ -19,7 +22,7 @@ const UserName = () => {
       <button
         onClick={(event) => {
           event.preventDefault();
-          Meteor.call('CreateRoom', input, (error, result) => {
+          Meteor.call("CreateRoom", input, (error, result) => {
             Session.set({
               players: result.players,
               user: input,
