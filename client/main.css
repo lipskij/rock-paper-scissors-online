@@ -111,6 +111,25 @@ h3 {
   transform: rotateY(180deg);
 }
 
+/* waiting room css */
+.room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vw;
+  width: 10rem;
+  background-color: #beb8cc;
+}
+
+.list {
+  align-items: flex-start;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  width: 8rem;
+  line-height: 1.5;
+}
+
 @media screen and (max-width: 550px) {
   form {
     display: flex;

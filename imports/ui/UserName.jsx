@@ -4,8 +4,8 @@ import { Session } from 'meteor/session';
 const UserName = () => {
   const [input, setInput] = useState('');
   const [hideInput, setHideInput] = useState(false);
-
-  return hideInput ? null : (
+  //hideInput ? null :
+  return (
     <form className="name">
       <label htmlFor="input">
         <input
@@ -19,10 +19,10 @@ const UserName = () => {
       <button
         onClick={(event) => {
           event.preventDefault();
-          Meteor.call('CreateGame', input, (error, result) => {
+          Meteor.call('CreateRoom', input, (error, result) => {
             Session.set({
-              gameID: result.gameID,
-              username: input,
+              players: result.players,
+              user: input,
             });
             setHideInput(true);
           });
