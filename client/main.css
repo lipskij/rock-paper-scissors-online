@@ -115,22 +115,22 @@ h3 {
   right: 0;
   z-index: 2;
   height: 100%;
-  width: 20vw;
   background-color: rgba(85, 69, 95, 0.5);
   transition: all 0.2s ease-out;
-  transform: translateX(0%)
+  transform: translateX(0%);
 }
 .room-closed {
-  transform: translateX(100%)
+  transform: translateX(100%);
 }
 
 .list {
   align-items: flex-start;
-  padding: 0;
+  padding-left: 1rem;
   list-style: none;
   text-align: left;
-  width: 8rem;
-  line-height: 1.5;
+  width: 12rem;
+  line-height: 2;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 550px) {

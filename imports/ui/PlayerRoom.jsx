@@ -1,5 +1,4 @@
 import React from "react";
-import { Session } from "meteor/session";
 import { useTracker } from "meteor/react-meteor-data";
 import { PlayerCollection } from "../api/players";
 
@@ -11,26 +10,19 @@ import { PlayerCollection } from "../api/players";
 // TODO: fix how we pun players to array
 
 const Room = () => {
-  const game = useTracker(() => {
+  const room = useTracker(() => {
     Meteor.subscribe("players");
 
-    const waitingRoom = PlayerCollection.findOne(Session.get("players"));
-    if (waitingRoom && waitingRoom.user) {
-      const player = waitingRoom.user.map(() => Session.get("users"));
-      return { player };
-    }
-    return { player: "" };
+    return PlayerCollection.find().fetch();
   });
-
+  
   return (
-    <div className={game.player.length > 0 ? "room" : "room-closed"}>
-      <h3>Waiting Room</h3>
+    <div className={room.length > 0 ? "room" : "room-closed"}>
+      <h2>Waiting Room</h2>
       <ul className="list">
-        {PlayerCollection.find()
-          .fetch()
-          .map((item, key) => (
-            <li key={key}>{item.user[0].toString()}</li>
-          ))}
+        {room.map((item) => (
+          <li key={item._id}>{item.user}</li>
+        ))}
       </ul>
     </div>
   );
