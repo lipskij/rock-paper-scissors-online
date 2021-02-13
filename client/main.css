@@ -125,12 +125,38 @@ h3 {
 
 .list {
   align-items: flex-start;
-  padding-left: 1rem;
   list-style: none;
   text-align: left;
-  width: 12rem;
+  width: 14rem;
   line-height: 2;
   font-weight: 700;
+  padding: 0;
+}
+
+.list-itm {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  align-items: center;
+}
+
+.list-itm:nth-child(2n) {
+  background-color: rgba(85, 69, 95, 0.3);
+}
+
+.call-to-play {
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  background-color: #fab26e;
+  color: #1f0c44;
+}
+
+.call-to-play:hover {
+  transform: scale(1.05);
+  transition-duration: 0.3s;
+  box-shadow: 5px 5px 5px rgba(85, 69, 95, 0.3);
 }
 
 @media screen and (max-width: 550px) {
