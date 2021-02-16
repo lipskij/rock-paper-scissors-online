@@ -1,6 +1,5 @@
 import { Meteor } from "meteor/meteor";
 import { GamesCollection } from "/imports/api/games";
-import { PlayerCollection } from "/imports/api/players";
 
 Meteor.startup(() => {
   const games = GamesCollection.find({
@@ -20,10 +19,6 @@ Meteor.startup(() => {
   });
 });
 
-Meteor.startup(() => {
-  const players = PlayerCollection.find({
-    users: {},
-  });
-
-  players.observe({});
+Meteor.publish("userPresence", function () {
+  return Presences.find({"state.isPlaying": false});
 });

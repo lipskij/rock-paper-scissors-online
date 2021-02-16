@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { Session } from "meteor/session";
 import PlayerRoom from "./PlayerRoom";
+import { useTracker } from "meteor/react-meteor-data";
+import { Presences } from "meteor/tmeasday:presence";
+
+window.Presences = Presences;
 
 const UserName = () => {
   const [input, setInput] = useState("");
   const [hideInput, setHideInput] = useState(false);
 
+  const room = useTracker(() => {
+    Meteor.subscribe("userPresence");
+
+    return Presences.find().fetch();
+  });
+  console.log(room)
+
   return hideInput ? (
-    <PlayerRoom />
+    <PlayerRoom room={room} />
   ) : (
     <form className="name">
       <label htmlFor="input">
@@ -22,13 +33,12 @@ const UserName = () => {
       <button
         onClick={(event) => {
           event.preventDefault();
-          Meteor.call("CreateRoom", input, (error, result) => {
-            Session.set({
-              players: result.players,
-              user: input,
-            });
-            setHideInput(true);
+
+          Session.set({
+            user: input,
+            isPlaying: false,
           });
+          setHideInput(true);
         }}
         className="username"
         type="submit"
