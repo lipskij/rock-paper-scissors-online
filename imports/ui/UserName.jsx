@@ -15,7 +15,7 @@ const UserName = () => {
 
     return Presences.find().fetch();
   });
-  console.log(room)
+  // console.log(room)
 
   return hideInput ? (
     <PlayerRoom room={room} />
@@ -31,6 +31,7 @@ const UserName = () => {
         />
       </label>
       <button
+        disabled={input.length > 0 ? false : true}
         onClick={(event) => {
           event.preventDefault();
 

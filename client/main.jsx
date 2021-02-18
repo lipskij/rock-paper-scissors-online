@@ -13,7 +13,7 @@ Meteor.startup(() => {
     .catch((error) => console.log("ServiceWorker registration failed: ", err));
 
   Presence.state = function () {
-    console.log(Session.get('user'))
+    // console.log(Session.get('user'))
     return {
       isPlaying: Session.get("isPlaying"),
       user: Session.get("user"),

@@ -77,7 +77,8 @@ body {
 .start:disabled,
 .rock:disabled,
 .paper:disabled,
-.scissors:disabled {
+.scissors:disabled,
+.username:disabled {
   background-color: grey;
   color: #f3f0fa;
 }
