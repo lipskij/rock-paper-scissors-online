@@ -5,6 +5,9 @@ import { useTracker } from "meteor/react-meteor-data";
 
 // put the player into the gameID (game room) after pressing play
 // dont show the list for both playing players
+// dont show users if they are in the game for other players
+// make a quit game button ant after click set status back to isPlaying: false
+// and show them the waiting room
 
 const Room = ({ room }) => {
   const myName = Presence.state("user");
@@ -14,11 +17,19 @@ const Room = ({ room }) => {
   const game = useTracker(() => {
     Meteor.subscribe("games");
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
-    if (currentGame && currentGame.players > 1) {
-      console.log(currentGame.players.length);
-      setHideList();
+    if (currentGame && currentGame.players && currentGame.players.length > 1) {
+      setHideList(true);
+
+      Meteor.call("userPresence", myName.user, (err, result) => {
+        Session.set({
+          isPlaying: true,
+        });
+      });
     }
+    return currentGame;
   }, [setHideList]);
+
+  console.log(room);
 
   return hideList ? null : (
     <div className={room.length > 0 ? "room" : "room-closed"}>
