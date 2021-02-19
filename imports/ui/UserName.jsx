@@ -15,7 +15,6 @@ const UserName = () => {
 
     return Presences.find().fetch();
   });
-  // console.log(room)
 
   return hideInput ? (
     <PlayerRoom room={room} />

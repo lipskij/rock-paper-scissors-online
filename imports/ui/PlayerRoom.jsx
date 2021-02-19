@@ -3,21 +3,17 @@ import { Presence } from "meteor/tmeasday:presence";
 
 // find my index
 // find other players names
-// find other players indexes
+// find other players indexes findIndex()
+// put the player into the gameID (game room) after pressing play
 
 const Room = ({ room }) => {
-  const otherlUsers = room.map((i) => i.state);
+  const users = room.map((i) => i.state.user);
   const myName = Presence.state("user");
-  const userNames = otherlUsers.map((i) => i.user);
-  const myIndex = userNames.indexOf(myName.user);
+  const myIndex = users.indexOf(myName.user);
 
-  console.log(myName);
+  console.log(myName.user);
   console.log(myIndex);
-  console.log(userNames);
-  console.log(userNames.indexOf(userNames));
-  const clickHandler = () => {
-    alert('lol');
-  };
+  console.log(users);
 
   return (
     <div className={room.length > 0 ? "room" : "room-closed"}>
@@ -26,9 +22,22 @@ const Room = ({ room }) => {
         {room.map((item) => (
           <li className='list-itm' key={item._id}>
             {item.state.user}
-            <button className='call-to-play' onClick={() => clickHandler()}>
-              play
-            </button>
+            {item.state.user === myName.user ? null : (
+              <button
+                className='call-to-play'
+                onClick={(event) => {
+                  event.preventDefault();
+                  Meteor.call("CreateGame", myName.user, (error, result) => {
+                    Session.set({
+                      gameID: result.gameID,
+                      username: myName.user,
+                    });
+                  });
+                }}
+              >
+                play
+              </button>
+            )}
           </li>
         ))}
       </ul>
