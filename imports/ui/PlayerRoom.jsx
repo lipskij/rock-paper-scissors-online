@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Presence } from "meteor/tmeasday:presence";
+import { GamesCollection } from "../api/games";
+import { useTracker } from "meteor/react-meteor-data";
 
-// find my index
-// find other players names
-// find other players indexes findIndex()
 // put the player into the gameID (game room) after pressing play
+// dont show the list for both playing players
 
 const Room = ({ room }) => {
-  const users = room.map((i) => i.state.user);
   const myName = Presence.state("user");
-  const myIndex = users.indexOf(myName.user);
 
-  console.log(myName.user);
-  console.log(myIndex);
-  console.log(users);
+  const [hideList, setHideList] = useState(false);
 
-  return (
+  const game = useTracker(() => {
+    Meteor.subscribe("games");
+    const currentGame = GamesCollection.findOne(Session.get("gameID"));
+    if (currentGame && currentGame.players > 1) {
+      console.log(currentGame.players.length);
+      setHideList();
+    }
+  }, [setHideList]);
+
+  return hideList ? null : (
     <div className={room.length > 0 ? "room" : "room-closed"}>
       <h2>Waiting Room</h2>
       <ul className='list'>
@@ -32,6 +37,7 @@ const Room = ({ room }) => {
                       gameID: result.gameID,
                       username: myName.user,
                     });
+                    setHideList(true);
                   });
                 }}
               >

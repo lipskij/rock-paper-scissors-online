@@ -19,14 +19,14 @@ const UserName = () => {
   return hideInput ? (
     <PlayerRoom room={room} />
   ) : (
-    <form className="name">
-      <label htmlFor="input">
+    <form className='name'>
+      <label htmlFor='input'>
         <input
           onChange={(event) => setInput(event.target.value)}
-          type="text"
-          placeholder="Username"
-          className="input"
-          id="input"
+          type='text'
+          placeholder='Username'
+          className='input'
+          id='input'
         />
       </label>
       <button
@@ -40,8 +40,8 @@ const UserName = () => {
           });
           setHideInput(true);
         }}
-        className="username"
-        type="submit"
+        className='username'
+        type='submit'
       >
         Submit
       </button>

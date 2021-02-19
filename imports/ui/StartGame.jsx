@@ -75,12 +75,12 @@ const Start = () => {
   const showOptions = !!game.otherUsername;
 
   return (
-    <div className="match">
+    <div className='match'>
       {animation === "visible" ? <h2>Wait...</h2> : <h2>{winner}</h2>}
 
       <button
         disabled={outcomeMessage === winner && showOptions ? false : true}
-        className="start"
+        className='start'
         onClick={(event) => {
           event.preventDefault();
           Meteor.call("Choice", {
@@ -94,50 +94,48 @@ const Start = () => {
       </button>
 
       <motion.div
-        initial="visible"
+        initial='visible'
         animate={animation}
         variants={variants}
         transition={{ duration: 1 }}
         onAnimationStart={onStart}
         onAnimationComplete={onFinish}
-        className="hands"
+        className='hands'
       >
-        <img className="player1" src={`/${hand}.png`} alt="paper" />
+        <img className='player1' src={`/${hand}.png`} alt='paper' />
         <img
-          className="player2"
+          className='player2'
           src={`/${opponentHand ? opponentHand : "rock"}.png`}
-          alt="hand"
+          alt='hand'
         />
       </motion.div>
 
       <h2>Choose an option</h2>
       {showOptions ? (
-        <div className="options">
+        <div className='options'>
           <button
             disabled={outcomeMessage === winner ? false : true}
             onClick={() => setHand("rock")}
-            className="rock"
+            className='rock'
           >
             Rock
           </button>
           <button
             disabled={outcomeMessage === winner ? false : true}
             onClick={() => setHand("paper")}
-            className="paper"
+            className='paper'
           >
             Paper
           </button>
           <button
             disabled={outcomeMessage === winner ? false : true}
             onClick={() => setHand("scissors")}
-            className="scissors"
+            className='scissors'
           >
             Scissors
           </button>
         </div>
-      ) : (
-        <h3 className="message">Wait for other player to connect</h3>
-      )}
+      ) : null}
     </div>
   );
 };
