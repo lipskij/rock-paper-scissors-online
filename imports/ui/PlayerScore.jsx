@@ -22,6 +22,7 @@ const PlayerScore = () => {
   });
 
   const showScore = !!game.otherUsername;
+  console.log(Session.get("username"));
 
   return (
     <div className='score'>
