@@ -36,8 +36,6 @@ const Room = ({ room }) => {
     return currentGame;
   }, [setHideList, setQuit]);
 
-  console.log(room);
-
   return hideList ? (
     <button
       className='call-to-quit'
@@ -57,8 +55,8 @@ const Room = ({ room }) => {
     </button>
   ) : (
     <div className={room.length > 0 ? "room" : "room-closed"}>
-      <h2>Waiting Room</h2>
       <ul className='list'>
+        <li className='list-name'>Waiting Room</li>
         {room.map((item) => (
           <li className='list-itm' key={item._id}>
             {item.state.user}
