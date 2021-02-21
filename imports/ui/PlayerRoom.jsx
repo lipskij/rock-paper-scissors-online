@@ -34,25 +34,26 @@ const Room = ({ room }) => {
       }
     }
     return currentGame;
-  }, [setHideList]);
+  }, [setHideList, setQuit]);
 
   console.log(room);
 
   return hideList ? (
     <button
+      className='call-to-quit'
       onClick={(event) => {
         event.preventDefault();
-
         Meteor.call("userPresence", myName.user, (err, result) => {
           Session.set({
             user: myName.user,
             isPlaying: false,
           });
           setQuit(true);
+          setHideList(false);
         });
       }}
     >
-      quit
+      Quit game
     </button>
   ) : (
     <div className={room.length > 0 ? "room" : "room-closed"}>
@@ -72,10 +73,11 @@ const Room = ({ room }) => {
                       username: myName.user,
                     });
                     setHideList(true);
+                    setQuit(false);
                   });
                 }}
               >
-                play
+                Play
               </button>
             )}
           </li>

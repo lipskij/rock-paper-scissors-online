@@ -146,15 +146,20 @@ h3 {
   background-color: rgba(85, 69, 95, 0.3);
 }
 
-.call-to-play {
+.call-to-play,
+.call-to-quit {
   cursor: pointer;
   border: none;
   border-radius: 3px;
   background-color: #fab26e;
   color: #1f0c44;
+  padding: 0.3rem;
+  font-weight: bold;
+
 }
 
-.call-to-play:hover {
+.call-to-play:hover,
+.call-to-quit:hover {
   transform: scale(1.05);
   transition-duration: 0.3s;
   box-shadow: 5px 5px 5px rgba(85, 69, 95, 0.3);
