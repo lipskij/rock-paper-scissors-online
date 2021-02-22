@@ -3,11 +3,10 @@ import { Presence } from "meteor/tmeasday:presence";
 import { GamesCollection } from "../api/games";
 import { useTracker } from "meteor/react-meteor-data";
 
-// put the player into the gameID (game room) after pressing play(done)
-// dont show the list for both playing players(done)
-// dont show users if they are in the game for other players(done)
-// make a quit game button ant after click set status back to isPlaying: false(done)
-// and show them the waiting room(done)
+// fix the game interface after quit
+// for now the the waiting room takes all screen width
+// so player can't press any button
+// add modal to call a player to agree for a game
 
 const Room = ({ room }) => {
   const myName = Presence.state("user");
@@ -18,23 +17,19 @@ const Room = ({ room }) => {
   const game = useTracker(() => {
     Meteor.subscribe("games");
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
-    if (currentGame && currentGame.players && currentGame.players.length > 1) {
+    if (currentGame?.players?.length > 1 && !quit) {
       setHideList(true);
-      if (quit === false) {
-        setQuit(false);
-        Meteor.call("userPresence", myName.user, (err, result) => {
-          Session.set({
-            user: myName.user,
-            isPlaying: true,
-          });
+      Meteor.call("userPresence", myName.user, (err, result) => {
+        Session.set({
+          user: myName.user,
+          isPlaying: true,
         });
-      } else {
-        setQuit(true);
-        setHideList(false);
-      }
+      });
+      return currentGame;
     }
-    return currentGame;
   }, [setHideList, setQuit]);
+
+  console.log(room.length)
 
   return hideList ? (
     <button
@@ -72,6 +67,7 @@ const Room = ({ room }) => {
                     });
                     setHideList(true);
                     setQuit(false);
+                    alert(room.map(i => i.state.user))
                   });
                 }}
               >
