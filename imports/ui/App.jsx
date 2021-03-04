@@ -7,7 +7,7 @@ import InstallButton from './InstallButton';
 export const App = () => {
   return (
     <div className="game-ui">
-      <InstallButton />
+      {/* <InstallButton /> */}
       <h1 className="title">Rock Paper Scissors</h1>
       <UserName />
       <PlayerScore />

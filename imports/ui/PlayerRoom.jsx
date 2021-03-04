@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Presence } from "meteor/tmeasday:presence";
 import { GamesCollection } from "../api/games";
+import { Requests } from "../api/invites";
 import { useTracker } from "meteor/react-meteor-data";
 
 // fix the game interface after quit
@@ -17,6 +18,7 @@ const Room = ({ room }) => {
   const game = useTracker(() => {
     Meteor.subscribe("games");
     const currentGame = GamesCollection.findOne(Session.get("gameID"));
+
     if (currentGame?.players?.length > 1 && !quit) {
       setHideList(true);
       Meteor.call("userPresence", myName.user, (err, result) => {
@@ -29,7 +31,25 @@ const Room = ({ room }) => {
     }
   }, [setHideList, setQuit]);
 
-  console.log(room.length)
+  useTracker(() => {
+    Meteor.subscribe('requests');
+    
+    const gameRequests = Requests.find({ calle: Session.get('user') });
+    if (gameRequests.count()) {
+      const play = window.confirm("Wanna play??");
+      if (!play) {
+        Requests.remove({});
+      }
+    }
+  });
+
+  function handlePlay() {
+    Requests.insert({
+      caller: Session.get("user"),
+      callee: event.target.value,
+    });
+  }
+  console.log(room);
 
   return hideList ? (
     <button
@@ -40,6 +60,7 @@ const Room = ({ room }) => {
           Session.set({
             user: myName.user,
             isPlaying: false,
+            called: false,
           });
           setQuit(true);
           setHideList(false);
@@ -58,17 +79,19 @@ const Room = ({ room }) => {
             {item.state.user === myName.user ? null : (
               <button
                 className='call-to-play'
+                value={item.state.user}
                 onClick={(event) => {
+                  event.persist();
                   event.preventDefault();
-                  Meteor.call("CreateGame", myName.user, (error, result) => {
-                    Session.set({
-                      gameID: result.gameID,
-                      username: myName.user,
-                    });
-                    setHideList(true);
-                    setQuit(false);
-                    alert(room.map(i => i.state.user))
-                  });
+                  handlePlay(event)
+                  // Meteor.call("CreateGame", myName.user, (error, result) => {
+                  //   Session.set({
+                  //     gameID: result.gameID,
+                  //     username: myName.user,
+                  //   });
+                  setHideList(true);
+                  setQuit(false);
+                  // });
                 }}
               >
                 Play
