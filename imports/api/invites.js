@@ -7,3 +7,12 @@ if (Meteor.isServer) {
     return Requests.find();
   });
 }
+
+Meteor.methods({
+  HandlePlay(name) {
+    Requests.insert({
+      callee: name,
+      caller: name,
+    });
+  },
+});
