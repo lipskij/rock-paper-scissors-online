@@ -29,9 +29,9 @@ const Room = ({ room }) => {
   useTracker(() => {
     Meteor.subscribe("requests");
 
-    const gameRequests = Requests.find({ callee: Session.get("user") });
-
-    if (gameRequests.count() > 1) {
+    const gameRequests = Requests.find();
+    console.log(gameRequests)
+    if (gameRequests.count()) {
       const play = window.confirm("Wanna play??");
       if (!play) {
         Requests.remove({ _id });
@@ -77,7 +77,7 @@ const Room = ({ room }) => {
                 onClick={(event) => {
                   event.persist();
                   event.preventDefault();
-                  Meteor.call("HandlePlay", {
+                  Meteor.call("HandlePlay", event.target.value,  myName.user,{
                     callee: event.target.value,
                     caller: Session.get("user"),
                   });

@@ -9,10 +9,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  HandlePlay(name) {
-    Requests.insert({
-      callee: name,
-      caller: name,
-    });
+  HandlePlay(callee, caller) {
+    Requests.insert({ callee, caller });
   },
 });
