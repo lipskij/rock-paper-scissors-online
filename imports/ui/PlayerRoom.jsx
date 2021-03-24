@@ -3,6 +3,7 @@ import { Presence } from "meteor/tmeasday:presence";
 import { GamesCollection } from "../api/games";
 import { useTracker } from "meteor/react-meteor-data";
 import { Requests } from "../api/invites";
+import { Session } from "meteor/session";
 
 const Room = ({ room }) => {
   const myName = Presence.state("user");
@@ -29,8 +30,8 @@ const Room = ({ room }) => {
   useTracker(() => {
     Meteor.subscribe("requests");
 
-    const gameRequests = Requests.find();
-    console.log(gameRequests)
+    const gameRequests = Requests.find({ callee: Session.get("user") });
+    console.log(gameRequests);
     if (gameRequests.count()) {
       const play = window.confirm("Wanna play??");
       if (!play) {
@@ -77,10 +78,17 @@ const Room = ({ room }) => {
                 onClick={(event) => {
                   event.persist();
                   event.preventDefault();
-                  Meteor.call("HandlePlay", event.target.value,  myName.user,{
-                    callee: event.target.value,
-                    caller: Session.get("user"),
-                  });
+                  Meteor.call(
+                    "HandlePlay",
+                    event.target.value,
+                    myName.user,
+                    (err, result) => {
+                      Session.set({
+                        callee: event.target.value,
+                        caller: Session.get("user"),
+                      });
+                    }
+                  );
                   setHideList(true);
                   setQuit(false);
                 }}

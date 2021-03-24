@@ -19,11 +19,11 @@ Meteor.startup(() => {
     },
   });
 
-  Meteor.publish("requests", function () {
-    return Requests.find({});
-  });
-
   Meteor.publish("userPresence", function () {
     return Presences.find({ "state.isPlaying": false });
+  });
+
+  Meteor.publish("requests", function () {
+    return Requests.find({});
   });
 });
